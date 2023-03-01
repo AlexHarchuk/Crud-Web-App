@@ -1,0 +1,79 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Бібліотека</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <a class="navbar-brand">Контроль бібліотеки</a>
+
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/book}">Книжковий контроль</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/users}">Контроль користувача</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/book/to-csv}">CSV Книги</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/users/to-csv}">Користувачі CSV</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <div class="row">
+    <h1>Список користувачів</h1>
+  </div>
+  <div class="row">
+    <div class="col-lg-3">
+      <a th:href="@{/users/create}" class="btn btn-primary btn-sm mb3">Додати користувача</a>
+    </div>
+  </div>
+  <br>
+  <table class="table table-striped table-bordered">
+    <thead class="table-dark">
+    <tr>
+      <th>USER_ID</th>.
+      <th>NAME</th>
+      <th>NIF</th>
+      <th>ACTIONS</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each=" user : ${users}">
+      <td th:text="${user.idUser}">USER_ID</td>
+      <td th:text="${user.name}">NAME</td>
+      <td th:text="${user.nif}">NIF</td>
+      <td>
+        <a th:href="@{/users/edit/{id}(id=${user.idUser})}" class="btn btn-info">Редагувати</a>
+        <a th:href="@{/users/delete/{id}(id=${user.idUser})}" class="btn btn-danger">Видалити</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<form method="POST" th:action="@{/users/upload-csv-file}" enctype="multipart/form-data">
+  <div class="form-group mt-3">
+    <label for="file">Імпорт CSV</label>
+    <input type="file" name="file" class="form-control-file" id="file" accept=".csv">
+  </div>
+  <br>
+  <button type="submit" class="btn btn-primary">Імпорт користувачів</button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+</body>
+</html>
